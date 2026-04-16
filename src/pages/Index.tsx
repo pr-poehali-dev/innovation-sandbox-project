@@ -1,12 +1,14 @@
 import { Shader, ChromaFlow, Swirl } from "shaders/react"
 import { CustomCursor } from "@/components/custom-cursor"
 import { GrainOverlay } from "@/components/grain-overlay"
-import { WorkSection } from "@/components/sections/work-section"
-import { ServicesSection } from "@/components/sections/services-section"
-import { AboutSection } from "@/components/sections/about-section"
+import { SignalsSection } from "@/components/sections/signals-section"
+import { ProblemsSection } from "@/components/sections/problems-section"
+import { AboutCatsSection } from "@/components/sections/about-cats-section"
 import { ContactSection } from "@/components/sections/contact-section"
 import { MagneticButton } from "@/components/magnetic-button"
 import { useRef, useEffect, useState } from "react"
+
+const NAV_ITEMS = ["Главная", "Звуки и сигналы", "Проблемы поведения", "О проекте", "Контакты"]
 
 export default function Index() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -182,36 +184,37 @@ export default function Index() {
       >
         <Shader className="h-full w-full">
           <Swirl
-            colorA="#1275d8"
-            colorB="#e19136"
-            speed={0.8}
-            detail={0.8}
-            blend={50}
-            coarseX={40}
-            coarseY={40}
+            colorA="#6b3fa0"
+            colorB="#e07b54"
+            speed={0.6}
+            detail={0.7}
+            blend={45}
+            coarseX={35}
+            coarseY={35}
             mediumX={40}
             mediumY={40}
-            fineX={40}
-            fineY={40}
+            fineX={30}
+            fineY={30}
           />
           <ChromaFlow
-            baseColor="#0066ff"
-            upColor="#0066ff"
-            downColor="#d1d1d1"
-            leftColor="#e19136"
-            rightColor="#e19136"
-            intensity={0.9}
-            radius={1.8}
-            momentum={25}
+            baseColor="#4a1a6b"
+            upColor="#7c3aed"
+            downColor="#1a0a2e"
+            leftColor="#e07b54"
+            rightColor="#f5a623"
+            intensity={0.85}
+            radius={1.6}
+            momentum={22}
             maskType="alpha"
-            opacity={0.97}
+            opacity={0.95}
           />
         </Shader>
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-black/25" />
       </div>
 
+      {/* Navigation */}
       <nav
-        className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-6 py-6 transition-opacity duration-700 md:px-12 ${
+        className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-4 py-4 transition-opacity duration-700 md:px-12 md:py-6 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -219,14 +222,16 @@ export default function Index() {
           onClick={() => scrollToSection(0)}
           className="flex items-center gap-2 transition-transform hover:scale-105"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25">
-            <span className="font-sans text-xl font-bold text-foreground">F</span>
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25">
+            <span className="text-xl">🐱</span>
           </div>
-          <span className="font-sans text-xl font-semibold tracking-tight text-foreground">Flowrise</span>
+          <span className="font-sans text-base font-semibold tracking-tight text-foreground md:text-xl">
+            Язык мурчания
+          </span>
         </button>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {["Главная", "Работы", "Услуги", "О нас", "Контакты"].map((item, index) => (
+        <div className="hidden items-center gap-6 md:flex lg:gap-8">
+          {NAV_ITEMS.map((item, index) => (
             <button
               key={item}
               onClick={() => scrollToSection(index)}
@@ -244,9 +249,16 @@ export default function Index() {
           ))}
         </div>
 
-        <MagneticButton variant="secondary" onClick={() => scrollToSection(4)}>
-          Начать
-        </MagneticButton>
+        {/* Mobile burger menu */}
+        <div className="flex items-center gap-3 md:hidden">
+          <MobileMenu currentSection={currentSection} scrollToSection={scrollToSection} />
+        </div>
+
+        <div className="hidden md:block">
+          <MagneticButton variant="secondary" onClick={() => scrollToSection(4)}>
+            Задать вопрос
+          </MagneticButton>
+        </div>
       </nav>
 
       <div
@@ -261,28 +273,30 @@ export default function Index() {
         <section className="flex min-h-screen w-screen shrink-0 flex-col justify-end px-6 pb-16 pt-24 md:px-12 md:pb-24">
           <div className="max-w-3xl">
             <div className="mb-4 inline-block animate-in fade-in slide-in-from-bottom-4 rounded-full border border-foreground/20 bg-foreground/15 px-4 py-1.5 backdrop-blur-md duration-700">
-              <p className="font-mono text-xs text-foreground/90">Современные технологии</p>
+              <p className="font-mono text-xs text-foreground/90">Поведение и психология кошек</p>
             </div>
-            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-sans text-6xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 md:text-7xl lg:text-8xl">
+            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-sans text-5xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 md:text-7xl lg:text-8xl">
               <span className="text-balance">
-                Цифровое будущее
+                Язык
+                <br />
+                мурчания
               </span>
             </h1>
             <p className="mb-8 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-lg leading-relaxed text-foreground/90 duration-1000 delay-200 md:text-xl">
               <span className="text-pretty">
-                Создаем современные веб-приложения и цифровые продукты, которые помогают бизнесу расти и развиваться.
+                Понимаем звуки и сигналы вашей кошки. Решаем проблемы поведения — без стресса для питомца и хозяина.
               </span>
             </p>
             <div className="flex animate-in fade-in slide-in-from-bottom-4 flex-col gap-4 duration-1000 delay-300 sm:flex-row sm:items-center">
               <MagneticButton
                 size="lg"
                 variant="primary"
-                onClick={() => scrollToSection(4)}
+                onClick={() => scrollToSection(1)}
               >
-                Обсудить проект
+                Понять кошку
               </MagneticButton>
               <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection(2)}>
-                Наши услуги
+                Решить проблему
               </MagneticButton>
             </div>
           </div>
@@ -297,9 +311,9 @@ export default function Index() {
           </div>
         </section>
 
-        <WorkSection />
-        <ServicesSection />
-        <AboutSection scrollToSection={scrollToSection} />
+        <SignalsSection />
+        <ProblemsSection />
+        <AboutCatsSection scrollToSection={scrollToSection} />
         <ContactSection />
       </div>
 
@@ -309,5 +323,46 @@ export default function Index() {
         }
       `}</style>
     </main>
+  )
+}
+
+function MobileMenu({
+  currentSection,
+  scrollToSection,
+}: {
+  currentSection: number
+  scrollToSection: (i: number) => void
+}) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md"
+        aria-label="Меню"
+      >
+        <div className="flex flex-col gap-1">
+          <span className={`block h-px w-5 bg-foreground transition-all ${open ? "rotate-45 translate-y-1.5" : ""}`} />
+          <span className={`block h-px w-5 bg-foreground transition-all ${open ? "opacity-0" : ""}`} />
+          <span className={`block h-px w-5 bg-foreground transition-all ${open ? "-rotate-45 -translate-y-1.5" : ""}`} />
+        </div>
+      </button>
+      {open && (
+        <div className="absolute right-0 top-12 min-w-[200px] rounded-xl border border-foreground/10 bg-black/60 p-4 backdrop-blur-xl">
+          {NAV_ITEMS.map((item, index) => (
+            <button
+              key={item}
+              onClick={() => { scrollToSection(index); setOpen(false) }}
+              className={`block w-full py-2 text-left font-sans text-sm transition-colors ${
+                currentSection === index ? "text-foreground font-medium" : "text-foreground/70 hover:text-foreground"
+              }`}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
